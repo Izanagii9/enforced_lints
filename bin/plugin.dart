@@ -1,9 +1,8 @@
 import 'dart:isolate';
 
 import 'package:analyzer_plugin/starter.dart';
-
-import 'package:bhealth_lint/src/plugin.dart';
+import 'package:enforced_lints/src/plugin.dart';
 
 void main(List<String> args, SendPort sendPort) {
-  ServerPluginStarter(BhealthPlugin()).start(sendPort);
+  ServerPluginStarter(EnforcedLintsPlugin()).start(sendPort);
 }
