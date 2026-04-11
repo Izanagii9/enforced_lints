@@ -2,29 +2,38 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
+import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 import 'package:enforced_lints_plugin/src/rule.dart';
 import 'package:enforced_lints_plugin/src/rules/no_final_local_variable.dart';
 
+final _tmpDir = Directory(
+  p.join(Directory.current.path, '.dart_tool', 'test_tmp'),
+);
+
+Future<List<Violation>> analyze(String source) async {
+  _tmpDir.createSync(recursive: true);
+
+  final tmp = File(
+    p.join(_tmpDir.path, 'test_${DateTime.now().microsecondsSinceEpoch}.dart'),
+  );
+  tmp.writeAsStringSync(source);
+  addTearDown(() {
+    if (tmp.existsSync()) tmp.deleteSync();
+  });
+
+  final collection = AnalysisContextCollection(includedPaths: [tmp.path]);
+  final ctx = collection.contextFor(tmp.path);
+  final result =
+      await ctx.currentSession.getResolvedUnit(tmp.path) as ResolvedUnitResult;
+
+  final reporter = RuleReporter();
+  NoFinalLocalVariable().run(result, reporter);
+  return reporter.violations;
+}
+
 void main() {
-  Future<List<Violation>> analyze(String source) async {
-    final tmp = File(
-      '${Directory.systemTemp.path}/test_nflv_${DateTime.now().microsecondsSinceEpoch}.dart',
-    );
-    tmp.writeAsStringSync(source);
-    addTearDown(tmp.deleteSync);
-
-    final collection = AnalysisContextCollection(includedPaths: [tmp.path]);
-    final ctx = collection.contextFor(tmp.path);
-    final result =
-        await ctx.currentSession.getResolvedUnit(tmp.path) as ResolvedUnitResult;
-
-    final reporter = RuleReporter();
-    NoFinalLocalVariable().run(result, reporter);
-    return reporter.violations;
-  }
-
   group('NoFinalLocalVariable', () {
     group('violations', () {
       test('flags final with explicit type', () async {
@@ -78,8 +87,7 @@ void f() {
       });
 
       test('does not flag static final fields', () async {
-        final violations =
-            await analyze('class A { static final int x = 5; }');
+        final violations = await analyze('class A { static final int x = 5; }');
         expect(violations, isEmpty);
       });
     });
@@ -102,7 +110,7 @@ void f() {
 
       test('provides no fix when type is dynamic', () async {
         final violations = await analyze('void f() { var x; }');
-        // dynamic / uninitialized — fix cannot infer a type
+
         expect(violations.single.fix, isNull);
       });
     });
