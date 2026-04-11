@@ -7,7 +7,9 @@ import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart';
 import 'package:analyzer_plugin/utilities/change_builder/change_builder_core.dart';
+import 'package:path/path.dart' as p;
 
+import 'config.dart';
 import 'rule.dart';
 import 'rules.dart';
 
@@ -18,6 +20,10 @@ class EnforcedLintsPlugin extends ServerPlugin {
   // SourceChanges are pre-built during analyzeFile while the session is fresh.
   // handleEditGetFixes just returns them — no session re-use needed.
   final Map<String, List<_StoredViolation>> _state = {};
+
+  // Config is cached per project root so analysis_options.yaml is only read
+  // once per root instead of on every file.
+  final Map<String, EnforcedLintsConfig> _configs = {};
 
   static final _generatedFile = RegExp(
     r'\.(g|freezed|mocks|gr)\.dart$',
@@ -50,7 +56,10 @@ class EnforcedLintsPlugin extends ServerPlugin {
       final violations = <_StoredViolation>[];
       final errors = <AnalysisError>[];
 
-      for (final rule in kRules) {
+      final config = _configFor(analysisContext);
+      final activeRules = kRules.where((r) => config.isEnabled(r.code));
+
+      for (final rule in activeRules) {
         final reporter = RuleReporter();
         rule.run(unit, reporter);
 
@@ -129,6 +138,14 @@ class EnforcedLintsPlugin extends ServerPlugin {
     }
 
     return EditGetFixesResult(fixes);
+  }
+
+  EnforcedLintsConfig _configFor(AnalysisContext analysisContext) {
+    final rootPath = analysisContext.contextRoot.root.path;
+    return _configs.putIfAbsent(rootPath, () {
+      final optionsPath = p.join(rootPath, 'analysis_options.yaml');
+      return EnforcedLintsConfig.fromOptionsFile(optionsPath);
+    });
   }
 
   SourceChange _mergeChanges(String message, List<SourceChange> changes) {
