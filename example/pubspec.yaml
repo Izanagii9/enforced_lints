@@ -1,0 +1,11 @@
+name: enforced_lints_example
+description: Example project showing how to integrate enforced_lints.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.0.0
+
+dev_dependencies:
+  enforced_lints:
+    path: ../

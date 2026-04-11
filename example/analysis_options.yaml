@@ -1,0 +1,9 @@
+analyzer:
+  plugins:
+    - enforced_lints
+
+# All enforced_lints rules are enabled by default.
+# Set a rule to false to disable it.
+enforced_lints:
+  rules:
+    no_final_local_variable: true

@@ -1,7 +1,12 @@
 name: enforced_lints
 description: Configurable lint rules enforced across Dart/Flutter projects via the analyzer plugin API.
-version: 0.0.1
+version: 0.1.0
 repository: https://github.com/Izanagii9/enforced_lints
+issue_tracker: https://github.com/Izanagii9/enforced_lints/issues
+topics:
+  - linting
+  - analyzer
+  - dart
 
 environment:
   sdk: ^3.0.0
