@@ -1,3 +1,10 @@
+## 0.1.1
+
+### Fixed
+
+- Example file no longer contains real violations, which caused `dart analyze --fatal-infos` to fail and zeroed out the pub.dev static analysis score.
+- Widened `analyzer` constraint to `<13.0.0` to include the latest compatible version and improve the pub.dev dependency score.
+
 ## 0.1.0
 
 ### Added

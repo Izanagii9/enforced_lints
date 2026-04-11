@@ -1,17 +1,18 @@
-// This file demonstrates violations caught by enforced_lints.
-// With the plugin active, the lines below will be flagged in the IDE.
+// This file shows how enforced_lints integrates with a Dart project.
+// Once the plugin is active, violations are highlighted directly in the IDE.
 
-void demonstrateViolations() {
-  // violation: `final` on a local variable
-  // ignore: no_final_local_variable
-  final int a = 1;
+// ─── Flagged by enforced_lints ────────────────────────────────────────────────
+//
+//   final int a = 1;      ← no_final_local_variable: final not allowed
+//   var b = 2;            ← no_final_local_variable: var not allowed
+//   final items = [];     ← no_final_local_variable: final + implicit type
+//
+// ─── Correct patterns ─────────────────────────────────────────────────────────
 
-  // violation: implicit typing via `var`
-  // ignore: no_final_local_variable
-  var b = 2;
+void demonstrateCorrectUsage() {
+  int count = 0;
+  String name = 'Alice';
+  List<String> items = [];
 
-  // OK: explicit non-final type
-  int c = 3;
-
-  print('$a $b $c');
+  print('$count $name $items');
 }

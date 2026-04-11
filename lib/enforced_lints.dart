@@ -38,4 +38,4 @@
 library enforced_lints;
 
 /// The current version of the enforced_lints package.
-const String version = '0.1.0';
+const String version = '0.1.1';
