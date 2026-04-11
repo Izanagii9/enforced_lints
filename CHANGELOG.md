@@ -5,7 +5,7 @@
 - Per-rule opt-out configuration via `analysis_options.yaml` — set any rule to `false` to disable it.
 - Unit tests for the `no_final_local_variable` rule.
 - Example project demonstrating plugin integration and rule configuration.
-- `dart run tool/reset_plugin_cache.dart` script to reset the analysis server plugin cache during plugin development.
+- `dart run tools/reset_plugin_cache.dart` script to reset the analysis server plugin cache during plugin development.
 
 ### Changed
 
