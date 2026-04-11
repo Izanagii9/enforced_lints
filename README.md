@@ -5,6 +5,17 @@ Rules are reported directly in your IDE as you type, with quick-fixes available 
 
 ---
 
+## Table of contents
+
+- [Installation](#installation)
+- [Rules](#rules)
+- [Configuring rules](#configuring-rules)
+- [Rule reference](#rule-reference)
+  - [no\_final\_local\_variable](#no_final_local_variable)
+- [Adding new rules](#adding-new-rules)
+
+---
+
 ## Installation
 
 Add the package to your `pubspec.yaml` as a dev dependency:
@@ -14,7 +25,7 @@ dev_dependencies:
   enforced_lints: ^0.0.1
 ```
 
-Then enable the plugin in your `analysis_options.yaml`:
+Enable the plugin in your `analysis_options.yaml`:
 
 ```yaml
 analyzer:
@@ -29,19 +40,18 @@ version upgrade.
 
 ---
 
-## Available rules
+## Rules
 
-| Rule | Description | Default |
-|------|-------------|---------|
-| `no_final_local_variable` | Local variables must use explicit, non-final types. Bans `final` and `var`. | enabled |
+| Rule | Description | Status |
+|------|-------------|--------|
+| [`no_final_local_variable`](#no_final_local_variable) | Local variables must use explicit, non-final types. Bans `final` and `var`. | ✅ available |
 
 ---
 
 ## Configuring rules
 
 All rules are **enabled by default**. To disable a specific rule, add an
-`enforced_lints` section to your `analysis_options.yaml` and set the rule to
-`false`:
+`enforced_lints` section to your `analysis_options.yaml` and set it to `false`:
 
 ```yaml
 analyzer:
@@ -53,14 +63,13 @@ enforced_lints:
     no_final_local_variable: false
 ```
 
-Changes to `analysis_options.yaml` are picked up automatically — no IDE restart
-required.
+Changes to `analysis_options.yaml` are picked up automatically — no IDE restart required.
 
 ---
 
 ## Rule reference
 
-### `no_final_local_variable`
+### no_final_local_variable
 
 Local variables must be declared with an explicit, non-final type.
 Both `final` and `var` are prohibited.
@@ -69,9 +78,9 @@ Both `final` and `var` are prohibited.
 
 ```dart
 void process() {
-  final int count = 0;   // ❌ final not allowed
-  var name = 'Alice';    // ❌ var not allowed
-  final items = <String>[];  // ❌ final + implicit type
+  final int count = 0;       // ❌ final not allowed on local variables
+  var name = 'Alice';        // ❌ var not allowed
+  final items = <String>[];  // ❌ final with implicit type
 }
 ```
 
@@ -79,22 +88,30 @@ void process() {
 
 ```dart
 void process() {
-  int count = 0;         // ✅ explicit type, no final
-  String name = 'Alice'; // ✅
-  List<String> items = []; // ✅
+  int count = 0;             // ✅ explicit type, no final
+  String name = 'Alice';     // ✅
+  List<String> items = [];   // ✅
 }
 ```
 
 **Quick fixes**
 
-The plugin provides quick-fixes that can be applied individually or all at once
-across the file:
+The plugin provides quick-fixes that can be applied individually or across the
+whole file at once:
 
-- `final int x = 5` → removes `final`, leaving `int x = 5`
-- `var x = 5` → replaces `var` with the inferred type, giving `int x = 5`
+| Violation | Fix |
+|-----------|-----|
+| `final int x = 5` | Removes `final` → `int x = 5` |
+| `var x = 5` | Replaces `var` with inferred type → `int x = 5` |
+| `var x` (dynamic) | No fix available — no concrete type to substitute |
 
-> **Note:** No fix is offered when the type resolves to `dynamic`, since there
-> is no safe concrete type to substitute.
+**Disable this rule**
+
+```yaml
+enforced_lints:
+  rules:
+    no_final_local_variable: false
+```
 
 ---
 
@@ -104,6 +121,7 @@ This package is designed to be extended. To contribute a rule:
 
 1. Create `tools/analyzer_plugin/lib/src/rules/my_rule.dart` extending `DartRule`.
 2. Add `MyRule()` to the list in `tools/analyzer_plugin/lib/src/rules.dart`.
-3. Add an entry to the rule table in this README and to `CHANGELOG.md`.
+3. Add a row to the [Rules](#rules) table and a section to [Rule reference](#rule-reference) in this README.
+4. Add an entry to `CHANGELOG.md`.
 
-See the existing `no_final_local_variable` rule for a complete example.
+See the existing [`no_final_local_variable`](#no_final_local_variable) rule for a complete example.
