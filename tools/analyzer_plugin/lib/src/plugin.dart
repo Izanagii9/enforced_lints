@@ -21,9 +21,6 @@ class EnforcedLintsPlugin extends ServerPlugin {
   // handleEditGetFixes just returns them — no session re-use needed.
   final Map<String, List<_StoredViolation>> _state = {};
 
-  // Config is cached per project root so analysis_options.yaml is only read
-  // once per root instead of on every file.
-  final Map<String, EnforcedLintsConfig> _configs = {};
 
   static final _generatedFile = RegExp(
     r'\.(g|freezed|mocks|gr)\.dart$',
@@ -142,10 +139,8 @@ class EnforcedLintsPlugin extends ServerPlugin {
 
   EnforcedLintsConfig _configFor(AnalysisContext analysisContext) {
     final rootPath = analysisContext.contextRoot.root.path;
-    return _configs.putIfAbsent(rootPath, () {
-      final optionsPath = p.join(rootPath, 'analysis_options.yaml');
-      return EnforcedLintsConfig.fromOptionsFile(optionsPath);
-    });
+    final optionsPath = p.join(rootPath, 'analysis_options.yaml');
+    return EnforcedLintsConfig.fromOptionsFile(optionsPath);
   }
 
   SourceChange _mergeChanges(String message, List<SourceChange> changes) {
