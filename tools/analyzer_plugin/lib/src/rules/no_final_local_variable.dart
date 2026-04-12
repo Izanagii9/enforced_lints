@@ -4,8 +4,8 @@ import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/source/source_range.dart';
+import 'package:enforced_lints_plugin/src/rule.dart';
 
-import '../rule.dart';
 
 class NoFinalLocalVariable extends DartRule {
   const NoFinalLocalVariable();

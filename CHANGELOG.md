@@ -1,3 +1,12 @@
+## 0.1.2
+
+### Fixed
+
+- Stabilized analyzer plugin compatibility by tightening `analyzer` and `analyzer_plugin` constraints to ensure successful resolution during `pub downgrade` and pub.dev analysis.
+- Fixed missing runtime dependency on `path`, which caused static analysis warnings in analyzer plugin sources.
+- Resolved pub.dev analysis failures caused by leftover `.trunk` tooling artifacts interfering with `pana` package inspection.
+- Ensured full compatibility of analyzer plugin with pub.dev isolated plugin execution environment.
+
 ## 0.1.1
 
 ### Fixed

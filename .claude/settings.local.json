@@ -6,7 +6,20 @@
       "Bash(dart pub:*)",
       "Bash(dart test:*)",
       "Bash(dart analyze:*)",
-      "Bash(dart run:*)"
+      "Bash(dart run:*)",
+      "Bash(xargs ls:*)",
+      "Bash(ls -d /c/BYME/SOLUTIONS/bhealthmobile/app/lib/features/*/)",
+      "Read(//tmp/**)",
+      "Bash(flutter pub:*)",
+      "Bash(flutter analyze:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m ':*)",
+      "Bash(git rm:*)",
+      "Bash(git push:*)",
+      "Bash(curl -L \"https://github.com/google/fonts/raw/main/ofl/inter/Inter%5Bslnt%2Cwght%5D.ttf\" -o /c/CustomProjects/soneka96/assets/fonts/Inter.ttf)",
+      "Bash(curl -L \"https://github.com/google/fonts/raw/main/ofl/jetbrainsmono/JetBrainsMono%5Bwght%5D.ttf\" -o /c/CustomProjects/soneka96/assets/fonts/JetBrainsMono.ttf)",
+      "Bash(git commit:*)",
+      "Bash(flutter gen-l10n:*)"
     ]
   }
 }
