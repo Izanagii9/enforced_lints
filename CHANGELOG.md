@@ -1,3 +1,9 @@
+## 0.1.3
+
+### Fixed
+
+- Corrected README documentation for pub.dev publishing and setup instructions.
+
 ## 0.1.2
 
 ### Fixed

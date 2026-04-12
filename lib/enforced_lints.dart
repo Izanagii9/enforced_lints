@@ -6,7 +6,7 @@
 ///
 /// ```yaml
 /// dev_dependencies:
-///   enforced_lints: ^0.1.2
+///   enforced_lints: ^0.1.3
 /// ```
 ///
 /// Then enable it in `analysis_options.yaml`:
@@ -38,4 +38,4 @@
 library enforced_lints;
 
 /// The current version of the enforced_lints package.
-const String version = '0.1.2';
+const String version = '0.1.3';
