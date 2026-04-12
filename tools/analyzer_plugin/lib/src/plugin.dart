@@ -21,7 +21,6 @@ class EnforcedLintsPlugin extends ServerPlugin {
   // handleEditGetFixes just returns them — no session re-use needed.
   final Map<String, List<_StoredViolation>> _state = {};
 
-
   static final _generatedFile = RegExp(
     r'\.(g|freezed|mocks|gr)\.dart$',
   );
@@ -93,7 +92,8 @@ class EnforcedLintsPlugin extends ServerPlugin {
       }
 
       _state[path] = violations;
-      channel.sendNotification(AnalysisErrorsParams(path, errors).toNotification());
+      channel.sendNotification(
+          AnalysisErrorsParams(path, errors).toNotification());
     } catch (_) {
       _state.remove(path);
       channel.sendNotification(AnalysisErrorsParams(path, []).toNotification());
@@ -115,7 +115,9 @@ class EnforcedLintsPlugin extends ServerPlugin {
       final errEnd = errOffset + sv.error.location.length;
       if (offset < errOffset || offset > errEnd) continue;
 
-      final prioritized = [PrioritizedSourceChange(sv.priority, sv.sourceChange!)];
+      final prioritized = [
+        PrioritizedSourceChange(sv.priority, sv.sourceChange!)
+      ];
 
       // "Fix all in file" — only when there are other fixable violations.
       final fixable = violations

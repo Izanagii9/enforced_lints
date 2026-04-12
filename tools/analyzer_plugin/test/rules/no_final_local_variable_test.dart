@@ -37,7 +37,8 @@ Future<List<Violation>> analyze(String source) async {
 }
 
 void main() {
-  group('NoFinalLocalVariable rule processes final local variables correctly', () {
+  group('NoFinalLocalVariable rule processes final local variables correctly',
+      () {
     test('final local variable with an explicit type reports one violation',
         () async {
       final violations = await analyze('void f() { final int x = 5; }');
@@ -101,7 +102,9 @@ void f() {
     });
   });
 
-  group('NoFinalLocalVariable rule processes var-declared local variables correctly', () {
+  group(
+      'NoFinalLocalVariable rule processes var-declared local variables correctly',
+      () {
     test('var-declared local variable reports one violation', () async {
       final violations = await analyze('void f() { var x = 5; }');
       expect(violations, hasLength(1));
@@ -178,8 +181,10 @@ void f() {
 }
 ''');
           expect(violations[0].fix!.message, contains("Remove 'final'"));
-          expect(violations[1].fix!.message, contains("Replace 'var' with 'int'"));
-          expect(violations[2].fix!.message, contains("Replace 'final' with 'int'"));
+          expect(
+              violations[1].fix!.message, contains("Replace 'var' with 'int'"));
+          expect(violations[2].fix!.message,
+              contains("Replace 'final' with 'int'"));
         },
       );
     },

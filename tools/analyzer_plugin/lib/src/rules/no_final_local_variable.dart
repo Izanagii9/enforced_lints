@@ -6,7 +6,6 @@ import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/source/source_range.dart';
 import 'package:enforced_lints_plugin/src/rule.dart';
 
-
 class NoFinalLocalVariable extends DartRule {
   const NoFinalLocalVariable();
 
