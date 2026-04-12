@@ -22,7 +22,7 @@ Add the package to your `pubspec.yaml` as a dev dependency:
 
 ```yaml
 dev_dependencies:
-  enforced_lints: ^0.0.1
+  enforced_lints: ^0.1.2
 ```
 
 Enable the plugin in your `analysis_options.yaml`:

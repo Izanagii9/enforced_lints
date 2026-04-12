@@ -6,7 +6,7 @@
 ///
 /// ```yaml
 /// dev_dependencies:
-///   enforced_lints: ^0.0.1
+///   enforced_lints: ^0.1.2
 /// ```
 ///
 /// Then enable it in `analysis_options.yaml`:
